@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Why I Love You</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Pacifico&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="bg-shape bg-shape-1"></div>
+    <div class="bg-shape bg-shape-2"></div>
+
+    <main class="app">
+      <section id="start-screen" class="screen active">
+        <h1>Why I Love You</h1>
+        <p class="subtitle">
+          I couldn't pick a favorite photo...<br />
+          because every moment with you is my favorite ❤️
+        </p>
+        <button id="start-btn" class="btn primary">Start the Cute Chaos 💕</button>
+      </section>
+
+      <section id="game-screen" class="screen">
+        <div class="card">
+          <div class="photo-frame">
+            <img id="photo" src="" alt="Our memory" />
+            <div id="photo-loader" class="loader">Loading love...</div>
+          </div>
+          <p id="line" class="line">Tap to reveal your first reason 💫</p>
+          <button id="next-btn" class="btn primary">Show me another reason 💕</button>
+          <p id="counter" class="counter">0 moments viewed</p>
+        </div>
+      </section>
+
+      <section id="quiz-screen" class="screen">
+        <div class="card small">
+          <h2>Quick question 😏</h2>
+          <p>Do you know how much I love you?</p>
+          <div class="answer-row">
+            <button class="btn answer-btn">A lot</button>
+            <button class="btn answer-btn">Too much</button>
+          </div>
+          <p id="quiz-result" class="quiz-result"></p>
+        </div>
+      </section>
+
+      <section id="surprise-screen" class="screen">
+        <div class="card small">
+          <h2>Okay pause 🥹</h2>
+          <p>I just want you to know I feel lucky every single day.</p>
+          <button id="surprise-continue" class="btn primary">Continue ❤️</button>
+        </div>
+      </section>
+
+      <section id="end-screen" class="screen">
+        <div class="card small">
+          <h2>One Last Thing...</h2>
+          <p>
+            There's no perfect order.<br />
+            No perfect photo.<br />
+            Just you... and I want all of it.
+          </p>
+          <p class="big-question">Will you be my Valentine? ❤️</p>
+          <div class="answer-row">
+            <button class="btn yes-btn">Yes</button>
+            <button class="btn yes-btn">Always Yes</button>
+          </div>
+          <div id="hearts" class="hearts"></div>
+        </div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
