@@ -3,44 +3,44 @@ const photos = [
   "photos/6324365A-6485-4DCF-B94E-AA38C0C2B74B.JPG",
   "photos/A6A6410C-2EE0-4D29-848F-A8233E5F98A1.JPG",
   "photos/FD951E27-CF50-4772-9EA5-09EE8BDF44A0.JPG",
-  "photos/IMG_0274.HEIC",
-  "photos/IMG_0452.HEIC",
-  "photos/IMG_0489 2.HEIC",
-  "photos/IMG_0523.HEIC",
-  "photos/IMG_0546.HEIC",
-  "photos/IMG_0834.HEIC",
-  "photos/IMG_1855.HEIC",
-  "photos/IMG_2069.HEIC",
-  "photos/IMG_2654.HEIC",
-  "photos/IMG_2754.heic",
-  "photos/IMG_5731 4.heic",
-  "photos/IMG_6744.HEIC",
-  "photos/IMG_8679 2.heic",
+  "photos/IMG_0274.jpg",
+  "photos/IMG_0452.jpg",
+  "photos/IMG_0489 2.jpg",
+  "photos/IMG_0523.jpg",
+  "photos/IMG_0546.jpg",
+  "photos/IMG_0834.jpg",
+  "photos/IMG_1855.jpg",
+  "photos/IMG_2069.jpg",
+  "photos/IMG_2654.jpg",
+  "photos/IMG_2754.jpg",
+  "photos/IMG_5731 4.jpg",
+  "photos/IMG_6744.jpg",
+  "photos/IMG_8679 2.jpg",
 ];
 
 const lines = [
-  "This smile lives rent-free in my head.",
-  "How are you this cute without trying?",
-  "I fall a little harder every time.",
-  "You make normal days feel special.",
-  "Even my best day gets better with you in it.",
-  "My favorite plot twist is always you.",
-  "You're my comfort place in human form.",
-  "I still get excited to talk to you.",
-  "You make chaos feel like home.",
-  "Your laugh should be declared a public treasure.",
-  "I could replay this moment forever.",
-  "You are my peace and my spark at the same time.",
-  "I choose you, again and again.",
+  "How are you cute even when you're doing nothing?",
+  "This photo is illegal. I'm reporting you 🚨",
+  "I was having a normal day... then THIS happened.",
+  "Proof that I'm whipped.",
+  "I still don't know how I got this lucky.",
+  "Your face is now my favorite hobby.",
+  "Every time I look at you, my brain just goes: wow.",
+  "I like you. A lot. Like, suspiciously a lot.",
+  "I opened this photo and forgot what I was doing.",
+  "You're my favorite distraction and my favorite peace.",
+  "You're unfairly adorable and I have evidence.",
+  "You make ordinary moments feel like a highlight reel.",
 ];
 
-const targetEndClicks = 11;
+const easterEggLine = "Okay stop. Come here. I miss you.";
+const finalClickCount = 10;
+const easterEggChance = 0.12;
 
 const screens = {
   start: document.getElementById("start-screen"),
   game: document.getElementById("game-screen"),
   quiz: document.getElementById("quiz-screen"),
-  surprise: document.getElementById("surprise-screen"),
   end: document.getElementById("end-screen"),
 };
 
@@ -51,15 +51,15 @@ const loaderEl = document.getElementById("photo-loader");
 const lineEl = document.getElementById("line");
 const counterEl = document.getElementById("counter");
 const quizResultEl = document.getElementById("quiz-result");
-const surpriseContinueBtn = document.getElementById("surprise-continue");
-const heartsContainer = document.getElementById("hearts");
+const valentineBtn = document.getElementById("valentine-btn");
+const yesText = document.getElementById("yes-text");
+const fxLayer = document.getElementById("fx-layer");
 
 const answerButtons = document.querySelectorAll(".answer-btn");
-const yesButtons = document.querySelectorAll(".yes-btn");
 
 let clickCount = 0;
-let shownSurprise = false;
-let surpriseTrigger = randomInt(3, 8);
+const quizAt = randomInt(4, 5);
+let quizDone = false;
 
 startBtn.addEventListener("click", () => {
   showScreen("game");
@@ -68,20 +68,14 @@ startBtn.addEventListener("click", () => {
 
 nextBtn.addEventListener("click", () => {
   clickCount += 1;
-  counterEl.textContent = `${clickCount} moment${clickCount === 1 ? "" : "s"} viewed`;
+  counterEl.textContent = `${clickCount} photo${clickCount === 1 ? "" : "s"} seen`;
 
-  if (clickCount === 5) {
+  if (!quizDone && clickCount === quizAt) {
     showScreen("quiz");
     return;
   }
 
-  if (!shownSurprise && clickCount === surpriseTrigger) {
-    shownSurprise = true;
-    showScreen("surprise");
-    return;
-  }
-
-  if (clickCount >= targetEndClicks) {
+  if (clickCount >= finalClickCount) {
     showScreen("end");
     return;
   }
@@ -91,24 +85,22 @@ nextBtn.addEventListener("click", () => {
 
 answerButtons.forEach((btn) => {
   btn.addEventListener("click", () => {
-    quizResultEl.textContent = "Correct. Both are true. 💘";
+    quizDone = true;
+    quizResultEl.textContent = "Wrong. It's more. 💖";
+
     setTimeout(() => {
       quizResultEl.textContent = "";
       showScreen("game");
       showRandomMemory();
-    }, 1100);
+    }, 1000);
   });
 });
 
-surpriseContinueBtn.addEventListener("click", () => {
-  showScreen("game");
-  showRandomMemory();
-});
-
-yesButtons.forEach((btn) => {
-  btn.addEventListener("click", () => {
-    burstHearts();
-  });
+valentineBtn.addEventListener("click", () => {
+  yesText.classList.add("show");
+  burstEffects();
+  valentineBtn.disabled = true;
+  valentineBtn.textContent = "Forever yes 💘";
 });
 
 function showScreen(name) {
@@ -117,8 +109,8 @@ function showScreen(name) {
 }
 
 function showRandomMemory() {
-  const line = pickRandom(lines);
-  lineEl.textContent = line;
+  const pickedLine = Math.random() < easterEggChance ? easterEggLine : pickRandom(lines);
+  lineEl.textContent = pickedLine;
 
   const attempts = Math.min(photos.length, 8);
   loaderEl.classList.remove("hidden");
@@ -134,16 +126,15 @@ function showRandomMemory() {
     })
     .catch(() => {
       loaderEl.classList.add("hidden");
-      photoEl.classList.remove("show");
       lineEl.textContent =
-        "Your browser can't load these photos yet. Convert HEIC photos to JPG and this will work perfectly 💕";
+        "Couldn't load this photo right now, but your cuteness still wins 💕";
     });
 }
 
 function loadSupportedPhoto(remainingAttempts) {
   return new Promise((resolve, reject) => {
     if (remainingAttempts <= 0) {
-      reject(new Error("No loadable photo found"));
+      reject(new Error("No loadable photos"));
       return;
     }
 
@@ -156,18 +147,28 @@ function loadSupportedPhoto(remainingAttempts) {
   });
 }
 
-function burstHearts() {
-  heartsContainer.innerHTML = "";
-  const count = 18;
+function burstEffects() {
+  fxLayer.innerHTML = "";
 
-  for (let i = 0; i < count; i += 1) {
+  for (let i = 0; i < 16; i += 1) {
     const heart = document.createElement("span");
     heart.className = "heart";
     heart.textContent = "❤️";
     heart.style.left = `${Math.random() * 100}%`;
-    heart.style.animationDelay = `${Math.random() * 0.6}s`;
-    heart.style.fontSize = `${18 + Math.random() * 20}px`;
-    heartsContainer.appendChild(heart);
+    heart.style.fontSize = `${18 + Math.random() * 18}px`;
+    heart.style.animationDelay = `${Math.random() * 0.4}s`;
+    fxLayer.appendChild(heart);
+  }
+
+  const confettiColors = ["#ffd166", "#ff7eb6", "#8ed1ff", "#b8f2c8", "#d7b8ff"];
+  for (let i = 0; i < 28; i += 1) {
+    const confetti = document.createElement("span");
+    confetti.className = "confetti";
+    confetti.style.left = `${Math.random() * 100}%`;
+    confetti.style.background = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+    confetti.style.animationDelay = `${Math.random() * 0.45}s`;
+    confetti.style.transform = `rotate(${Math.random() * 180}deg)`;
+    fxLayer.appendChild(confetti);
   }
 }
 
