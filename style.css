@@ -1,7 +1,7 @@
 :root {
   --bg-a: #ffe8f4;
   --bg-b: #eee4ff;
-  --card: rgba(255, 255, 255, 0.86);
+  --card: rgba(255, 255, 255, 0.88);
   --text: #422a4d;
   --muted: #6d4f7e;
   --primary-a: #ff6f9f;
@@ -82,7 +82,7 @@ body {
 }
 
 .card.narrow {
-  max-width: 660px;
+  max-width: 700px;
   margin: 0 auto;
 }
 
@@ -114,6 +114,12 @@ p {
   color: var(--muted);
 }
 
+.choice-grid {
+  margin-top: 16px;
+  display: grid;
+  gap: 10px;
+}
+
 .photo-frame {
   width: min(760px, 100%);
   aspect-ratio: 4 / 3;
@@ -124,7 +130,7 @@ p {
   background: linear-gradient(130deg, #ffd8e8, #e6d9ff);
 }
 
-#photo {
+#g1-photo {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -133,7 +139,7 @@ p {
   transition: opacity 0.75s ease, transform 0.75s ease;
 }
 
-#photo.show {
+#g1-photo.show {
   opacity: 1;
   transform: scale(1);
 }
@@ -166,7 +172,7 @@ p {
   font-size: 1.03rem;
   font-weight: 700;
   cursor: pointer;
-  transition: transform 0.2s ease, filter 0.2s ease;
+  transition: transform 0.2s ease, filter 0.2s ease, opacity 0.2s ease;
 }
 
 .btn:hover {
@@ -184,8 +190,24 @@ p {
   background: linear-gradient(120deg, var(--primary-a), var(--primary-b));
 }
 
+.secondary {
+  background: #f4d8ff;
+  color: #6f3a88;
+}
+
+.ghost {
+  margin-top: 12px;
+  background: #f4edf9;
+  color: #6a5580;
+}
+
+.no-btn {
+  background: #fbe3ea;
+  color: #8f3357;
+}
+
 .counter {
-  margin-top: 10px;
+  margin-top: 8px;
   color: #9767a7;
   font-size: 0.96rem;
   font-weight: 700;
@@ -199,7 +221,7 @@ p {
   margin-top: 14px;
 }
 
-.answer-btn {
+.g1-answer-btn {
   background: #fdd6ec;
   color: #7e3f7f;
 }
@@ -252,6 +274,30 @@ p {
   border-radius: 2px;
 }
 
+.arena {
+  position: relative;
+  margin-top: 14px;
+  height: 220px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #ffe2ef, #efe4ff);
+  overflow: hidden;
+}
+
+.dodge {
+  position: absolute;
+  left: 18px;
+  top: 18px;
+  margin-top: 0;
+  z-index: 2;
+}
+
+#g2-no-btn {
+  position: absolute;
+  right: 18px;
+  bottom: 18px;
+  z-index: 1;
+}
+
 @keyframes pop {
   0% {
     opacity: 0;
@@ -283,7 +329,6 @@ p {
 
   .card {
     padding: 16px;
-    border-radius: 20px;
   }
 
   .photo-frame {
@@ -297,5 +342,15 @@ p {
   .btn {
     width: 100%;
     max-width: 320px;
+  }
+
+  .arena {
+    height: 250px;
+  }
+
+  .dodge,
+  #g2-no-btn {
+    width: auto;
+    max-width: none;
   }
 }
